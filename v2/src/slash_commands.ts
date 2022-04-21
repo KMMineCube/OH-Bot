@@ -1,3 +1,5 @@
+//defines the structure of the slash commands
+
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9';
@@ -7,14 +9,14 @@ const queue_command = new SlashCommandBuilder()
     .setName('queue')
     .setDescription('Add or remove queue channels to the server (admin only)')
     .addSubcommand(subcommand => subcommand
-        .setName('add')
+        .setName('add') // /queue add [queue_name]
         .setDescription('Create a new queue channel')
         .addStringOption(option => option
             .setName('queue_name')
             .setDescription('The name of the queue to create')
             .setRequired(true)))
     .addSubcommand(subcommand => subcommand
-        .setName('remove')
+        .setName('remove') // /queue remove [queue_name]
         .setDescription('Remove an existing queue')
         .addChannelOption(option => option
             .setName('queue_name')
@@ -22,7 +24,7 @@ const queue_command = new SlashCommandBuilder()
             .setRequired(true)))
 
 const enqueue_command = new SlashCommandBuilder()
-    .setName('enqueue')
+    .setName('enqueue') // /enqueue [queue_name] (user)
     .setDescription('Enter a help queue')
     .addChannelOption(option => option
         .setName('queue_name')
@@ -34,7 +36,7 @@ const enqueue_command = new SlashCommandBuilder()
         .setRequired(false))
 
 const dequeue_command = new SlashCommandBuilder()
-    .setName('next')
+    .setName('next') // /next (queue_name) (user)
     .setDescription('Bring in the next student to help from any of your queues (FIFO)')
     .addChannelOption(option => option
         .setName('queue_name')
@@ -46,19 +48,19 @@ const dequeue_command = new SlashCommandBuilder()
         .setRequired(false))
 
 const start_command = new SlashCommandBuilder()
-    .setName('start')
+    .setName('start') // /start
     .setDescription('Start helping students')
 
 const stop_command = new SlashCommandBuilder()
-    .setName('stop')
+    .setName('stop') // /stop
     .setDescription('Stop helping students')
 
 const leave_command = new SlashCommandBuilder()
-    .setName('leave')
+    .setName('leave') // /leave
     .setDescription('Leave your current queue')
 
 const clear_command = new SlashCommandBuilder()
-    .setName('clear')
+    .setName('clear') // /clear (queue_name) (all)
     .setDescription('Clear all of the waiting students from a queue.')
     .addChannelOption(option => option
         .setName('queue_name')
@@ -70,7 +72,7 @@ const clear_command = new SlashCommandBuilder()
         .setRequired(false))
 
 const list_helpers_command = new SlashCommandBuilder()
-    .setName('list_helpers')
+    .setName('list_helpers') // /list_helpers
     .setDescription('See who is online and helping.')
 
 // Get the raw data that can be sent to Discord

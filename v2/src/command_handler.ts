@@ -11,7 +11,7 @@ interface CommandHandler {
     readonly permission: CommandAccessLevel
     Process(server: AttendingServer, interaction: CommandInteraction): Promise<void>
 }
-
+//create or remove queues
 class QueueCommandHandler implements CommandHandler {
     readonly permission = CommandAccessLevel.ADMIN
     async Process(server: AttendingServer, interaction: CommandInteraction) {
@@ -29,7 +29,7 @@ class QueueCommandHandler implements CommandHandler {
         }
     }
 }
-
+//enqueue
 class EnqueueCommandHandler implements CommandHandler {
     readonly permission = CommandAccessLevel.ANYONE
     async Process(server: AttendingServer, interaction: CommandInteraction) {

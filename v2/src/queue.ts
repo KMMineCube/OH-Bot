@@ -13,6 +13,7 @@ export class HelpQueueDisplayManager {
         this.display_channel = display_channel
     }
 
+    //the text for queue
     private GetQueueText(queue: HelpQueue, queue_members: MemberState[]): string {
         const quant_prase =  queue.length == 1 ? 'is 1 person' : `are ${queue.length} people`
         const status_line = `The queue is **${queue.is_open ? 'OPEN' : 'CLOSED'}**. There ${quant_prase} in the queue.\n`
@@ -24,25 +25,28 @@ export class HelpQueueDisplayManager {
         }
         return status_line
     }
-
+    // setup or update the queue channel
     OnQueueUpdate(queue: HelpQueue, queue_members: MemberState[]): Promise<void> {
         return this.display_channel.messages.fetchPinned()
-            .then(messages => messages.filter(msg => msg.author == this.client.user))
+            .then(messages => messages.filter(msg => msg.author == this.client.user)) 
+            //filter through all messages sent by this bot
             .then(messages => {
-                if (messages.size > 1) {
+                if (messages.size > 1) { //delete all messages in the queue channel if there's more than one
                     messages.forEach(message => message.delete())
                     messages.clear()
                 }
                 const message_text = this.GetQueueText(queue, queue_members)
-                if (messages.size == 0) {
+                if (messages.size == 0) { //if channel is empty, then make new message
                     return this.display_channel.send(message_text).then(message => message.pin())
                 } else {
-                    return messages.first()?.edit(message_text)
+                    return messages.first()?.edit(message_text) 
+                    //if channel has a message, then it must be the queue message. update the message
                 }
             }).then(() => undefined)
 
     }
 }
+
 
 export class HelpQueue {
     private queue: MemberState[] = []
@@ -102,7 +106,7 @@ export class HelpQueue {
         user_state.TryAddToQueue(this)
         this.queue.push(user_state)
 
-        if (this.queue.length == 1) {
+        if (this.queue.length == 1) { //probably make this happen always? or make it an option that the tutors can choose
             // The queue went from having 0 people to having 1.
             // Notify helpers of this queue that someone has joined.
             await Promise.all(

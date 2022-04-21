@@ -23,7 +23,7 @@ export class MemberState {
         return this.helped_members
     }
 
-    StartHelping(): void {
+    StartHelping(): void { // /start
         if(this.current_queue !== null) {
             throw new UserError('You can\'t host while in a queue yourself.')
         } else if (this.start_helping_timestamp !== null) {
@@ -33,7 +33,7 @@ export class MemberState {
         this.helped_members = []
     }
 
-    StopHelping(): number {
+    StopHelping(): number { // /stop
         // Remove a helper from thier queues. Returns the time they started helping
         if(this.start_helping_timestamp === null) {
             throw new UserError('You are not currently hosting.')
@@ -61,7 +61,7 @@ export class MemberState {
         this.current_queue = queue
     }
 
-    TryRemoveFromQueue(queue: HelpQueue | null = null): void {
+    TryRemoveFromQueue(queue: HelpQueue | null = null): void { // removing from a certain queue
         if(this.current_queue === null) {
             throw new UserError('Not in queue')
         }
